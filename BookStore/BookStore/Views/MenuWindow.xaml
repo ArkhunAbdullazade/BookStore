@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="BookStore.Views.MenuWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookStore.Views"
+             xmlns:Menu="clr-namespace:BookStore.Tools" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="228">
+    <Grid HorizontalAlignment="Left"
+                  Width="228">
+
+        <Border Background="LightGoldenrodYellow"
+                        CornerRadius="20,0,0,20" />
+
+        <StackPanel Height="222" Width="228">
+
+            <Menu:MenuButton 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateToHomeCommand}"
+                        IsChecked="True">
+                <Grid>
+
+                    <Image Source="/Views/home.png"
+                                   Style="{StaticResource ImageStyle}" Margin="10,8,0,0" VerticalAlignment="Top" />
+
+                    <TextBlock Text="Home"
+                                       Style="{StaticResource TextStyle}" />
+
+                </Grid>
+            </Menu:MenuButton>
+
+            <Menu:MenuButton 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateToProfileCommand}">
+                <Grid>
+
+                    <Image Source="/Views/profile.png"
+                                   Style="{StaticResource ImageStyle}" VerticalAlignment="Top" />
+
+                    <TextBlock Text="Profile"
+                                       Style="{StaticResource TextStyle}" />
+
+                </Grid>
+            </Menu:MenuButton>
+
+            <Menu:MenuButton 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateToShopCommand}">
+                <Grid>
+
+                    <Image Source="/Views/shop.png"
+                                   Style="{StaticResource ImageStyle}" VerticalAlignment="Top" />
+
+                    <TextBlock Text="Shop"
+                                       Style="{StaticResource TextStyle}" />
+
+                </Grid>
+            </Menu:MenuButton>
+
+            <Menu:MenuButton 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateToLibraryCommand}">
+                <Grid>
+
+                    <Image Source="/Views/library.png"
+                                   Style="{StaticResource ImageStyle}" Margin="10,8,0,0" VerticalAlignment="Top" />
+
+                    <TextBlock Text="Library"
+                                       Style="{StaticResource TextStyle}" />
+
+                </Grid>
+            </Menu:MenuButton>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

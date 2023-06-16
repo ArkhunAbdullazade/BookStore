@@ -30,7 +30,7 @@ namespace BookStore
             base.OnStartup(e);
             ConfigureContainer();
 
-            //StartWindow<LogInViewModel>();
+            StartWindow<LogInViewModel>();
         }
 
         private void ConfigureContainer()
@@ -40,8 +40,13 @@ namespace BookStore
             ServiceContainer.RegisterSingleton<IBooksRepository<Book>, BookSqlRepository>();
 
             ServiceContainer.RegisterSingleton<MainViewModel>();
-            //ServiceContainer.RegisterSingleton<LogInViewModel>();
-            //ServiceContainer.RegisterSingleton<SignUpViewModel>();
+            ServiceContainer.RegisterSingleton<MenuViewModel>();
+            ServiceContainer.RegisterSingleton<LogInViewModel>();
+            ServiceContainer.RegisterSingleton<SignUpViewModel>();
+            ServiceContainer.RegisterSingleton<HomeViewModel>();
+            ServiceContainer.RegisterSingleton<ProfileViewModel>();
+            ServiceContainer.RegisterSingleton<ShopViewModel>();
+            ServiceContainer.RegisterSingleton<LibraryViewModel>();
 
             ServiceContainer.Verify();
         }

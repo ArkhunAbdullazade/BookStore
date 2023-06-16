@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BookStore
+namespace BookStore.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ShopWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ShopWindow : UserControl
     {
-        public MainWindow()
+        public ShopWindow()
         {
             InitializeComponent();
         }

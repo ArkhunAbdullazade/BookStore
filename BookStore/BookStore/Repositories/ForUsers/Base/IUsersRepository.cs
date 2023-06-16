@@ -11,6 +11,6 @@ namespace BookStore.Repositories.Base
     {
         TUser? Login(string name, string password);
         void Signup(string name, string password);
-        TUser? FindByNameAndPassword(string name, string password);
+        TUser FindByNameAndPassword(string name, string password);
     }
 }

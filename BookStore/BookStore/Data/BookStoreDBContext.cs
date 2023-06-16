@@ -29,6 +29,9 @@ namespace BookStore.Data
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new BookConfiguration());
+
+            modelBuilder.Entity<UserBook>()
+            .HasKey(pt => new { pt.BookId, pt.UserId });
         }
     }
 }

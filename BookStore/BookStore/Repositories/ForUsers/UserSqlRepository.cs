@@ -28,7 +28,7 @@ namespace BookStore.Repositories
 
         public User? FindById(int id) => context.Users.Find(id);
 
-        public User? FindByNameAndPassword(string name, string password) => context.Users.FirstOrDefault(user => user.Name == name && user.Password == password);
+        public User FindByNameAndPassword(string name, string password) => context.Users.First(user => user.Name == name && user.Password == password);
 
         public void Update(User changedUser)
         {
@@ -50,8 +50,7 @@ namespace BookStore.Repositories
             ArgumentNullException.ThrowIfNull(name, nameof(name));
             ArgumentNullException.ThrowIfNull(password, nameof(password));
 
-            User? user = this.FindByNameAndPassword(name, password);
-            if (user == null) return;
+            User user = new(name, password);
             this.Add(user);
         }
 

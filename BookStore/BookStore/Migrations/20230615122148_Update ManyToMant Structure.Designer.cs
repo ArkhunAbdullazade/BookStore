@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookStoreDBContext))]
-    [Migration("20230613132352_Update Columns")]
-    partial class UpdateColumns
+    [Migration("20230615122148_Update ManyToMant Structure")]
+    partial class UpdateManyToMantStructure
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,34 +65,48 @@ namespace BookStore.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BookUser", b =>
+            modelBuilder.Entity("BookStore.Models.UserBook", b =>
                 {
-                    b.Property<int>("BooksId")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("BooksId", "UsersId");
+                    b.HasKey("BookId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("BookUser");
+                    b.ToTable("UserBooks");
                 });
 
-            modelBuilder.Entity("BookUser", b =>
+            modelBuilder.Entity("BookStore.Models.UserBook", b =>
                 {
-                    b.HasOne("BookStore.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
+                    b.HasOne("BookStore.Models.Book", "Book")
+                        .WithMany("UserBooks")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookStore.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
+                    b.HasOne("BookStore.Models.User", "User")
+                        .WithMany("UserBooks")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookStore.Models.Book", b =>
+                {
+                    b.Navigation("UserBooks");
+                });
+
+            modelBuilder.Entity("BookStore.Models.User", b =>
+                {
+                    b.Navigation("UserBooks");
                 });
 #pragma warning restore 612, 618
         }

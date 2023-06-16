@@ -4,9 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookStore"
+        xmlns:Menu="clr-namespace:BookStore.Tools" 
+        xmlns:vm="clr-namespace:BookStore.ViewModels" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="600"
+        Width="850"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        
+        Background="Transparent">
     <Grid>
-        <ContentControl Content="{Binding ActiveViewModel}"/>
+
+        <Border Background="Transparent"
+                CornerRadius="20" />
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="228" />
+                <ColumnDefinition Width="622" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <ContentControl Content="{Binding MenuViewModel}"/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <ContentControl Content="{Binding ActiveViewModel}"/>
+            </Grid>
+
+        </Grid>
     </Grid>
 </Window>

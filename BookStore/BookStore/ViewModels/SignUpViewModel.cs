@@ -57,7 +57,6 @@ public class SignUpViewModel : ViewModelBase
         try
         {
             this.usersRepository.Signup(this.Name, this.Password);
-            this.usersRepository.SaveChanges();
 
             this.Password = string.Empty;
 

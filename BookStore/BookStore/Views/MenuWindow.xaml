@@ -21,7 +21,7 @@
                         IsChecked="True">
                 <Grid>
 
-                    <Image Source="/Views/home.png"
+                    <Image Source="..\Assets\home.png"
                                    Style="{StaticResource ImageStyle}" Margin="10,8,0,0" VerticalAlignment="Top" />
 
                     <TextBlock Text="Home"
@@ -35,7 +35,7 @@
                         Command="{Binding NavigateToProfileCommand}">
                 <Grid>
 
-                    <Image Source="/Views/profile.png"
+                    <Image Source="..\Assets\profile.png"
                                    Style="{StaticResource ImageStyle}" VerticalAlignment="Top" />
 
                     <TextBlock Text="Profile"
@@ -49,7 +49,7 @@
                         Command="{Binding NavigateToShopCommand}">
                 <Grid>
 
-                    <Image Source="/Views/shop.png"
+                    <Image Source="..\Assets\shop.png"
                                    Style="{StaticResource ImageStyle}" VerticalAlignment="Top" />
 
                     <TextBlock Text="Shop"
@@ -63,7 +63,7 @@
                         Command="{Binding NavigateToLibraryCommand}">
                 <Grid>
 
-                    <Image Source="/Views/library.png"
+                    <Image Source="..\Assets\library.png"
                                    Style="{StaticResource ImageStyle}" Margin="10,8,0,0" VerticalAlignment="Top" />
 
                     <TextBlock Text="Library"

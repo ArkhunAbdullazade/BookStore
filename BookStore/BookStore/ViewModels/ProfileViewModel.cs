@@ -25,6 +25,34 @@ class ProfileViewModel : ViewModelBase
         set => base.PropertyChange(out currentUser, value);
     }
 
+    private string? name;
+    public string? Name
+    {
+        get => name;
+        set => base.PropertyChange(out name, value);
+    }
+
+    private string? password;
+    public string? Password
+    {
+        get => password;
+        set => base.PropertyChange(out password, value);
+    }
+
+    private string? avatarUrl;
+    public string? AvatarUrl
+    {
+        get => avatarUrl;
+        set => base.PropertyChange(out avatarUrl, value);
+    }
+
+    private string amount;
+    public string? Amount
+    {
+        get => amount;
+        set => base.PropertyChange(out amount, value);
+    }
+
     private Command? logoutCommand;
     public Command LogoutCommand
     {
@@ -36,6 +64,60 @@ class ProfileViewModel : ViewModelBase
             },
             predicate: () => true);
         set => base.PropertyChange(out this.logoutCommand, value);
+    }
+
+    private Command? changeNameCommand;
+    public Command ChangeNameCommand
+    {
+        get => this.changeNameCommand ??= new Command(
+            action: () =>
+            {
+                CurrentUser.Name = Name;
+                CurrentUser = this.usersRepository.Update(CurrentUser);
+            },
+            predicate: () => Name is not null);
+        set => base.PropertyChange(out this.changeNameCommand, value);
+    }
+
+    private Command? changePasswordCommand;
+    public Command ChangePasswordCommand
+    {
+        get => this.changePasswordCommand ??= new Command(
+            action: () =>
+            {
+                CurrentUser.Password = Password;
+                CurrentUser = this.usersRepository.Update(CurrentUser);
+            },
+            predicate: () => Password is not null);
+        set => base.PropertyChange(out this.changePasswordCommand, value);
+    }
+
+    private Command? changeAvatarCommand;
+    public Command ChangeAvatarCommand
+    {
+        get => this.changeAvatarCommand ??= new Command(
+            action: () =>
+            {
+                CurrentUser.AvatarUrl = AvatarUrl;
+                CurrentUser = this.usersRepository.Update(CurrentUser);
+            },
+            predicate: () => AvatarUrl is not null);
+        set => base.PropertyChange(out this.changeAvatarCommand, value);
+    }
+
+    private Command? changeAmountCommand;
+    public Command ChangeAmountCommand
+    {
+        get => this.changeAmountCommand ??= new Command(
+            action: () =>
+            {
+                if (!double.TryParse(Amount, out double result)) return;
+
+                CurrentUser.Amount += result;
+                CurrentUser = this.usersRepository.Update(CurrentUser);
+            },
+            predicate: () => Amount is not null);
+        set => base.PropertyChange(out this.changeAmountCommand, value);
     }
 
     public ProfileViewModel(IUsersRepository<User> usersRepository, IMessenger messenger)

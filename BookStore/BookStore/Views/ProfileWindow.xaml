@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="622">
     <DockPanel>
-        <Grid Height="80" DockPanel.Dock="Top" Background="LightGoldenrodYellow">
+        <Grid Height="80" DockPanel.Dock="Top">
+            <Border Background="LightGoldenrodYellow"
+                        CornerRadius="0,20,0,0" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.65*"/>
@@ -27,12 +29,19 @@
                     FontSize="25"
                     FontWeight="Bold"
                     Padding="10"/>
-                <TextBlock Grid.Column="2" 
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+
+                    <TextBlock
                     VerticalAlignment="Center" 
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Right"
                     Text="{Binding CurrentUser.Amount}" 
-                    FontSize="15"
-                    Padding="10"/>
+                    FontSize="15"/>
+                    <TextBlock
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"
+                    Text="$"
+                    FontSize="15"/>
+                </StackPanel>
 
                 <Button Content="Logout"
                     Grid.Column="4" 
@@ -45,35 +54,92 @@
                 </Button>
             </Grid>
         </Grid>
-        <Grid Background="#fcfcc0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0" Background="#fcfcc0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 
             </Grid>
 
+            <Border Grid.Column="1"
+                Background="#fcfcc0"
+                CornerRadius="0,0,20,0">
 
-            <DockPanel Grid.Column="1">
                 <Grid DockPanel.Dock="Top" Height="300">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    <TextBlock Text="Manage profile data"  
+                                   Grid.Row="0"
+                                   FontSize="25"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   FontWeight="Bold"
+                                   Padding="10"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image
+                                   Source="{Binding CurrentUser.AvatarUrl}"
+                                   Height="115"
+                                   Width="115"
+                                   Margin="5,0,0,0"/>
+                        <TextBlock Width="10"/>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBox Text="{Binding AvatarUrl}" Width="150"/>
+                            <TextBlock HorizontalAlignment="Center" Text="||" FontWeight="Heavy"/>
+                            <TextBlock HorizontalAlignment="Center" Text="\/" FontWeight="Heavy"/>
+                            <Button Content="Change Avatar"
+                                        Background="Transparent"
+                                        BorderThickness="10"
+                                        Command="{Binding ChangeAvatarCommand}" 
+                                        FontWeight="Medium"
+                                        Style="{StaticResource RegistrationButtonStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
 
-                    <Image Grid.Column="0"
-                       Source="{Binding CurrentUser.AvatarUrl}"
-                       Height="115"
-                       Width="115"
-                       VerticalAlignment="Top" Margin="4,4,4,0"/>
+                    <StackPanel Margin="5,0,0,0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Name: "/>
+                        <TextBox Text="{Binding Name}" Width="150" Height="20"/>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="=>" FontWeight="Heavy"/>
+                        <Button Content="Change"
+                                    Background="Transparent"
+                                    BorderThickness="10"
+                                    Command="{Binding ChangeNameCommand}" 
+                                    FontWeight="Medium"
+                                    Style="{StaticResource RegistrationButtonStyle}"/>
+                    </StackPanel>
 
+                    <StackPanel Margin="5,0,0,0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Password: "/>
+                        <TextBox Text="{Binding Password}" Width="150" Height="20"/>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="=>" FontWeight="Heavy"/>
+                        <Button Content="Change"
+                                    Background="Transparent"
+                                    BorderThickness="10"
+                                    Command="{Binding ChangePasswordCommand}" 
+                                    FontWeight="Medium"
+                                    Style="{StaticResource RegistrationButtonStyle}"/>
+                    </StackPanel>
 
-                </Grid>
-            </DockPanel>
-        </Grid>
+                    <StackPanel Margin="5,0,0,0" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Amount to add: "/>
+                        <TextBox Text="{Binding Amount}" Width="150" Height="20"/>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="=>" FontWeight="Heavy"/>
+                        <Button Content="Change"
+                                        Background="Transparent"
+                                        BorderThickness="10"
+                                        Command="{Binding ChangeAmountCommand}" 
+                                        FontWeight="Medium"
+                                        Style="{StaticResource RegistrationButtonStyle}"/>
+                    </StackPanel>
+            </Grid>
+            </Border>
     </DockPanel>
 </UserControl>

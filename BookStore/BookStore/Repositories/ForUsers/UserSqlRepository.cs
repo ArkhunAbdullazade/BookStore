@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using BookStore.Models;
 using BookStore.Data;
 using BookStore.Repositories.Base;
+using static Azure.Core.HttpHeader;
 
 namespace BookStore.Repositories
 {
@@ -22,20 +23,39 @@ namespace BookStore.Repositories
 
         public IEnumerable<User> GetAll() => context.Users;
 
-        public void Add(User user) => context.Users.Add(user);
+        public User Add(User user) 
+        {
+            var result = context.Users.Add(user);
+            context.SaveChanges();
 
-        public void Delete(User user) => context.Users.Remove(user);
+            return result.Entity;
+        }
+
+        public bool Delete(User user)
+        {
+            if (user is null || user.Id == 0) return false;
+
+            context.Users.Remove(user);
+            context.SaveChanges();
+
+            return true;
+        }
 
         public User? FindById(int id) => context.Users.Find(id);
 
         public User FindByNameAndPassword(string name, string password) => context.Users.First(user => user.Name == name && user.Password == password);
 
-        public void Update(User changedUser)
+        public User Update(User changedUser)
         {
             User? user = context.Users.FirstOrDefault(user => user.Id == changedUser.Id);
-            if (user == null) return;
+            ArgumentNullException.ThrowIfNull(user, nameof(user));
+
             user.Name = changedUser.Name;
             user.Password = changedUser.Password;
+            user.AvatarUrl = changedUser.AvatarUrl;
+            user.Amount = changedUser.Amount;
+            context.SaveChanges();
+            return user;
         }
         public User? Login(string name, string password)
         {
@@ -52,11 +72,6 @@ namespace BookStore.Repositories
 
             User user = new(name, password);
             this.Add(user);
-        }
-
-        void IRepository<User>.SaveChanges()
-        {
-            context.SaveChanges();
         }
     }
 }

@@ -61,7 +61,6 @@ public class LogInViewModel : ViewModelBase
         try
         {
             var user = this.usersRepository.Login(this.Name, this.Password);
-            this.usersRepository.SaveChanges();
 
             this.Name = string.Empty;
             this.Password = string.Empty;

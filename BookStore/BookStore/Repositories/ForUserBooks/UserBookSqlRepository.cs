@@ -22,18 +22,28 @@ namespace CarShop.Repositories
 
         public IEnumerable<UserBook> GetAll() => context.UserBooks;
 
-        public void Add(UserBook userBook) => context.UserBooks.Add(userBook);
+        public UserBook Add(UserBook userBook)
+        {
+            var result = context.UserBooks.Add(userBook);
+            context.SaveChanges();
 
-        public void Delete(UserBook userBook) => context.UserBooks.Remove(userBook);
+            return result.Entity;
+        }
+
+        public bool Delete(UserBook userBook)
+        {
+            if (userBook is null) return false;
+            else if (userBook.BookId == 0 || userBook.UserId == 0) return false;
+
+            context.UserBooks.Remove(userBook);
+            context.SaveChanges();
+
+            return true;
+        }
 
         public UserBook? FindById(int id) => context.UserBooks.Find(id);
 
-        void IRepository<UserBook>.SaveChanges()
-        {
-            context.SaveChanges();
-        }
-
-        public void Update(UserBook userBook)
+        public UserBook Update(UserBook userBook)
         {
             throw new NotImplementedException();
         }

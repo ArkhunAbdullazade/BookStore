@@ -9,10 +9,9 @@ namespace BookStore.Repositories.Base
     public interface IRepository<T>
     {
         IEnumerable<T> GetAll();
-        void Add(T obj);
-        void Delete(T obj);
-        void Update(T obj);
+        T Add(T obj);
+        bool Delete(T obj);
+        T Update(T obj);
         T? FindById(int id);
-        void SaveChanges();
     }
 }

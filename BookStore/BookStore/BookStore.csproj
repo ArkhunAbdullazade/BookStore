@@ -8,10 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\home.png" />
-    <None Remove="Views\library.png" />
-    <None Remove="Views\profile.png" />
-    <None Remove="Views\shop.png" />
+    <None Remove="Assets\home.png" />
+    <None Remove="Assets\library.png" />
+    <None Remove="Assets\profile.png" />
+    <None Remove="Assets\shop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\shop.png">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+	<Resource Include="Assets\home.png">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Resource>
+	<Resource Include="Assets\library.png">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Resource>
+	<Resource Include="Assets\profile.png">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -23,13 +38,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="SimpleInjector" Version="5.4.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Views\home.png" />
-    <Resource Include="Views\library.png" />
-    <Resource Include="Views\profile.png" />
-    <Resource Include="Views\shop.png" />
   </ItemGroup>
 
 </Project>

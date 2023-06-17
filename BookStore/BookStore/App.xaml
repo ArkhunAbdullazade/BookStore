@@ -34,6 +34,14 @@
             <v:LibraryWindow/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+            <v:AboutWindow/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:BookViewModel}">
+            <v:BookWindow/>
+        </DataTemplate>
+
         <Style x:Key="RegistrationButtonStyle"
            TargetType="Button">
             <Setter Property="Template">

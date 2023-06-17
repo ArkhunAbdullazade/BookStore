@@ -6,9 +6,16 @@
              xmlns:local="clr-namespace:BookStore.Views"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="622">
-    <DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.25*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
 
-        <Grid Height="80" DockPanel.Dock="Top">
+        <Grid Height="80" Grid.Row="0">
             <Border Background="LightGoldenrodYellow"
                         CornerRadius="0,20,0,0" />
             <Grid>
@@ -55,9 +62,95 @@
                 </Button>
             </Grid>
         </Grid>
-        <Grid>
-            <Border Background="#fcfcc0"
-                        CornerRadius="0,0,20,0" />
+        <Grid Background="#fcfcc0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Your Latest Books" 
+                       FontFamily="Times New Roman"
+                       FontSize="25"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       FontWeight="Bold"
+                       Padding="10"/>
+            <Button Grid.Row="1" Content="See More..."
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding SeeMoreLibraryCommand}" 
+                    FontWeight="Bold"
+                    Style="{StaticResource RegistrationButtonStyle}">
+            </Button>
         </Grid>
-    </DockPanel>
+        <Grid Background="#fcfcc0"  Grid.Row="2">
+            <ListView Background="Transparent" ItemsSource="{Binding LibraryBooks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Background="#fcfcc0" Height="100">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="11*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Width="85" Height="100" Source="{Binding CoverUrl}"/>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Margin="5,0,0,0" FontFamily="Times New Roman" FontWeight="Medium" FontSize="25" Text="{Binding Title}"/>
+                                <TextBlock Margin="5,0,0,0" FontSize="20" Text="{Binding Author}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Background="#fcfcc0" Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="New Books" 
+                       FontFamily="Times New Roman"
+                       FontSize="25"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       FontWeight="Bold"
+                       Padding="10"/>
+            <Button Grid.Row="1" Content="See More..."
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding SeeMoreShopCommand}" 
+                    FontWeight="Bold"
+                    Style="{StaticResource RegistrationButtonStyle}">
+            </Button>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Border Background="#fcfcc0"
+                    CornerRadius="0,0,20,0">
+                <ListView Background="Transparent" ItemsSource="{Binding ShopBooks}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="#fcfcc0" Height="100">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="11*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" Width="85" Height="100" Source="{Binding CoverUrl}"/>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Margin="5,0,0,0" FontFamily="Times New Roman" FontWeight="Medium" FontSize="25" Text="{Binding Title}"/>
+                                    <TextBlock Margin="5,0,0,0" FontSize="15" Text="{Binding Author}"/>
+                                    <TextBlock Margin="5,25,0,0" FontWeight="Light" FontSize="15">
+                                        <Run Text="Price: "/>
+                                        <Run Text="{Binding Price}"/>
+                                        <Run Text="$"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

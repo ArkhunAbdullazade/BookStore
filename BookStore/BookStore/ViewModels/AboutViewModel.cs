@@ -3,28 +3,29 @@ using BookStore.Models;
 using BookStore.Repositories.Base;
 using BookStore.Services.Base;
 using BookStore.ViewModels.Base;
-using BookStore.Tools;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookStore.Repositories.ForComments.Base;
+using BookStore.Tools;
+using CarShop.Repositories;
 using System.Windows;
 using BookStore.Models.Messages;
-using System.Collections.ObjectModel;
-using BookStore.Data;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using Microsoft.EntityFrameworkCore.Storage;
+using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore.Update.Internal;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookStore.ViewModels;
-class ShopViewModel : ViewModelBase
+class AboutViewModel : ViewModelBase
 {
-    private readonly IBooksRepository<Book> booksRepository;
     private readonly IUserBooksRepository<UserBook> userBooksRepository;
+    private readonly ICommentsRepository<Comment> commentsRepository;
     private readonly IMessenger messenger;
 
-    public ObservableCollection<Book> Books { get; private set; }
+    public ObservableCollection<Comment> Comments { get; private set; }
 
     private User? currentUser;
     public User? CurrentUser
@@ -33,11 +34,18 @@ class ShopViewModel : ViewModelBase
         set => base.PropertyChange(out currentUser, value);
     }
 
-    private Book? selectedBook;
-    public Book? SelectedBook
+    private Book? currentBook;
+    public Book? CurrentBook
     {
-        get => this.selectedBook;
-        set => base.PropertyChange(out selectedBook, value);
+        get => this.currentBook;
+        set => base.PropertyChange(out currentBook, value);
+    }
+
+    private string? commentText;
+    public string? CommentText
+    {
+        get => this.commentText;
+        set => base.PropertyChange(out commentText, value);
     }
 
     private Command? logoutCommand;
@@ -59,34 +67,35 @@ class ShopViewModel : ViewModelBase
         get => this.buyCommand ??= new Command(
             action: () =>
             {
-                if (SelectedBook is null) return;
+                if (CurrentBook is null) return;
                 this.BuyBook();
-                this.UpdateBooksList();
+                this.messenger.Send(new UpdateBooksListMessage());
+                this.messenger.Send(new NavigationMessage(typeof(ShopViewModel)));
             },
             predicate: () => true);
         set => base.PropertyChange(out this.buyCommand, value);
     }
 
-    private Command? aboutCommand;
-    public Command AboutCommand
+    private Command? typeCommentCommand;
+    public Command TypeCommentCommand
     {
-        get => this.aboutCommand ??= new Command(
+        get => this.typeCommentCommand ??= new Command(
             action: () =>
             {
-                if (SelectedBook is null) return;
-                this.messenger.Send(new SendSelectedBookMessage(SelectedBook));
-                this.messenger.Send(new NavigationMessage(typeof(AboutViewModel)));
+                this.commentsRepository.Add(new Comment(CommentText) { Book = CurrentBook, User = CurrentUser });
+                this.UpdateCommentsList();
             },
             predicate: () => true);
-        set => base.PropertyChange(out this.aboutCommand, value);
+        set => base.PropertyChange(out this.typeCommentCommand, value);
     }
 
-    public ShopViewModel(IUserBooksRepository<UserBook> userBooksRepository, IBooksRepository<Book> booksRepository, IMessenger messenger)
+    public AboutViewModel(IUserBooksRepository<UserBook> userBooksRepository, ICommentsRepository<Comment> commentsRepository, IMessenger messenger)
     {
         this.userBooksRepository = userBooksRepository;
-        this.booksRepository = booksRepository;
+        this.commentsRepository = commentsRepository;
         this.messenger = messenger;
-        Books = new ObservableCollection<Book>();
+
+        Comments = new ObservableCollection<Comment>();
 
         this.messenger.Subscribe<SendLoginedUserMessage>(obj =>
         {
@@ -95,11 +104,13 @@ class ShopViewModel : ViewModelBase
                 this.CurrentUser = message.LoginedUser;
             }
         });
-        this.messenger.Subscribe<UpdateBooksListMessage>(obj =>
+
+        this.messenger.Subscribe<SendSelectedBookMessage>(obj =>
         {
-            if (obj is UpdateBooksListMessage message)
+            if (obj is SendSelectedBookMessage message)
             {
-                this.UpdateBooksList();
+                this.CurrentBook = message.SelectedBook;
+                UpdateCommentsList();
             }
         });
     }
@@ -108,13 +119,13 @@ class ShopViewModel : ViewModelBase
     {
         try
         {
-            if (CurrentUser.Amount < SelectedBook.Price) throw new Exception("You dont have enough money");
+            if (CurrentUser.Amount < CurrentBook.Price) throw new Exception("You dont have enough money");
 
-            CurrentUser.Amount -= SelectedBook.Price;
+            CurrentUser.Amount -= CurrentBook.Price;
             UserBook userBookToAdd = new UserBook()
             {
                 User = CurrentUser,
-                Book = SelectedBook
+                Book = CurrentBook
             };
             userBooksRepository.Add(userBookToAdd);
         }
@@ -128,15 +139,13 @@ class ShopViewModel : ViewModelBase
         }
     }
 
-    void UpdateBooksList()
+    void UpdateCommentsList()
     {
-        var booksToExclude = this.booksRepository.GetBooksByUserId(CurrentUser.Id);
-        Books.Clear();
+        Comments.Clear();
 
-        if (booksToExclude.Count() == 0)
-            foreach (var book in this.booksRepository.GetAll()) { Books.Add(book); }
-        else
-            foreach (var book in this.booksRepository.GetAll())
-            { if (!booksToExclude.Contains(book)) Books.Add(book); }
+        foreach (var comment in this.commentsRepository.GetAll())
+        {
+            if (comment.BookId == CurrentBook.Id) Comments.Add(comment);
+        }
     }
 }

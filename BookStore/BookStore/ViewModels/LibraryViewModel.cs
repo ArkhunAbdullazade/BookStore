@@ -11,19 +11,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using BookStore.Models.Messages;
+using System.Collections.ObjectModel;
 
 namespace BookStore.ViewModels;
 class LibraryViewModel : ViewModelBase
 {
 
-    private readonly IUsersRepository<User> usersRepository;
+    private readonly IBooksRepository<Book> booksRepository;
+    private readonly IUserBooksRepository<UserBook> userBooksRepository;
     private readonly IMessenger messenger;
+
+    public ObservableCollection<Book> Books { get; private set; }
 
     private User? currentUser;
     public User? CurrentUser
     {
-        get { return currentUser; }
+        get => this.currentUser;
         set => base.PropertyChange(out currentUser, value);
+    }
+
+    private Book? selectedBook;
+    public Book? SelectedBook
+    {
+        get => this.selectedBook;
+        set => base.PropertyChange(out selectedBook, value);
     }
 
     private Command? logoutCommand;
@@ -39,10 +50,25 @@ class LibraryViewModel : ViewModelBase
         set => base.PropertyChange(out this.logoutCommand, value);
     }
 
-    public LibraryViewModel(IUsersRepository<User> usersRepository, IMessenger messenger)
+    private Command? readCommand;
+    public Command ReadCommand
     {
-        this.usersRepository = usersRepository;
+        get => this.readCommand ??= new Command(
+            action: () =>
+            {
+                this.messenger.Send(new SendSelectedBookMessage(SelectedBook));
+                this.messenger.Send(new NavigationMessage(typeof(BookViewModel)));
+            },
+            predicate: () => true);
+        set => base.PropertyChange(out this.readCommand, value);
+    }
+
+    public LibraryViewModel(IUserBooksRepository<UserBook> userBooksRepository, IBooksRepository<Book> booksRepository, IMessenger messenger)
+    {
+        this.userBooksRepository = userBooksRepository;
+        this.booksRepository = booksRepository;
         this.messenger = messenger;
+        Books = new ObservableCollection<Book>();
 
         this.messenger.Subscribe<SendLoginedUserMessage>(obj =>
         {
@@ -51,5 +77,20 @@ class LibraryViewModel : ViewModelBase
                 this.CurrentUser = message.LoginedUser;
             }
         });
+        this.messenger.Subscribe<UpdateBooksListMessage>(obj =>
+        {
+            if (obj is UpdateBooksListMessage message)
+            {
+                this.UpdateBooksList();
+            }
+        });
+    }
+
+    void UpdateBooksList()
+    {
+        var booksToInclude = this.booksRepository.GetBooksByUserId(CurrentUser.Id);
+        Books.Clear();
+
+        foreach (var book in booksToInclude) { Books.Add(book); }
     }
 }

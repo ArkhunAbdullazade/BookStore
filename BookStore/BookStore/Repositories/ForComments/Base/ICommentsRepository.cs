@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Repositories.Base
+namespace BookStore.Repositories.ForComments.Base
 {
-    public interface IUserBooksRepository<TUserBook> : IRepository<TUserBook> { }
+    public interface ICommentsRepository<TComment> : IRepository<TComment> { }
 }

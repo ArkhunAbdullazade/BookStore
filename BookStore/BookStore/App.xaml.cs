@@ -15,6 +15,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using SimpleInjector;
 using CarShop.Repositories;
+using BookStore.Data;
+using BookStore.Repositories.ForComments.Base;
+using BookStore.Repositories.ForComments;
+using System.ComponentModel.Design;
+using System.Text.Json;
+using System.Security.RightsManagement;
+using System.IO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookStore
 {
@@ -29,7 +37,11 @@ namespace BookStore
         {
             base.OnStartup(e);
             ConfigureContainer();
-
+            var context = ServiceContainer.GetInstance<BookStoreDBContext>();
+            if (context.Books.IsNullOrEmpty())
+            {
+                ConfigureBooks(context);
+            }
             StartWindow<LogInViewModel>();
         }
 
@@ -38,6 +50,9 @@ namespace BookStore
             ServiceContainer.RegisterSingleton<IMessenger, Messenger>();
             ServiceContainer.RegisterSingleton<IUsersRepository<User>, UserSqlRepository>();
             ServiceContainer.RegisterSingleton<IBooksRepository<Book>, BookSqlRepository>();
+            ServiceContainer.RegisterSingleton<IUserBooksRepository<UserBook>, UserBookSqlRepository>();
+            ServiceContainer.RegisterSingleton<ICommentsRepository<Comment>, CommentSqlRepository>();
+            ServiceContainer.RegisterSingleton<BookStoreDBContext>();
 
             ServiceContainer.RegisterSingleton<MainViewModel>();
             ServiceContainer.RegisterSingleton<MenuViewModel>();
@@ -47,6 +62,8 @@ namespace BookStore
             ServiceContainer.RegisterSingleton<ProfileViewModel>();
             ServiceContainer.RegisterSingleton<ShopViewModel>();
             ServiceContainer.RegisterSingleton<LibraryViewModel>();
+            ServiceContainer.RegisterSingleton<AboutViewModel>();
+            ServiceContainer.RegisterSingleton<BookViewModel>();
 
             ServiceContainer.Verify();
         }
@@ -60,6 +77,17 @@ namespace BookStore
             startView.DataContext = startViewModel;
 
             startView.ShowDialog();
+        }
+
+        private void ConfigureBooks(BookStoreDBContext context)
+        {
+            var json = File.ReadAllText("..\\..\\..\\Json Mock Data\\Books.json");
+            Book[] Books = JsonSerializer.Deserialize<Book[]>(json);
+            foreach (var book in Books)
+            {
+                context.Books.Add(book);
+            }
+            context.SaveChanges();
         }
     }
 }

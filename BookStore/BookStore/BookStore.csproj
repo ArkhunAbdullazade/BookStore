@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
@@ -12,6 +12,7 @@
     <None Remove="Assets\library.png" />
     <None Remove="Assets\profile.png" />
     <None Remove="Assets\shop.png" />
+    <None Remove="Json Mock Data\Books.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,9 @@
 	</Resource>
 	<Resource Include="Assets\profile.png">
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Resource>
+	<Resource Include="Json Mock Data\Books.json">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</Resource>
   </ItemGroup>
 

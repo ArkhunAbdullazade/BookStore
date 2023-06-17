@@ -1,4 +1,5 @@
-﻿using BookStore.Repositories.Base;
+﻿using BookStore.Models;
+using BookStore.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,5 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Repositories.Base
 {
-    public interface IBooksRepository<TBook> : IRepository<TBook> { }
+    public interface IBooksRepository<TBook> : IRepository<TBook> 
+    {
+        IEnumerable<TBook> GetBooksByUserId(int id);
+    }
 }

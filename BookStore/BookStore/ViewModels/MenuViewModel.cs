@@ -21,7 +21,11 @@ public class MenuViewModel : ViewModelBase
     public Command NavigateToHomeCommand
     {
         get => this.navigateToHomeCommand ??= new Command(
-               action: () => this.messenger.Send(new NavigationMessage(typeof(HomeViewModel))),
+               action: () =>
+               {
+                   this.messenger.Send(new UpdateBooksListMessage());
+                   this.messenger.Send(new NavigationMessage(typeof(HomeViewModel)));
+               },
                predicate: () => true);
         set => base.PropertyChange(out navigateToHomeCommand, value);
     }
@@ -39,8 +43,15 @@ public class MenuViewModel : ViewModelBase
     public Command NavigateToShopCommand
     {
         get => this.navigateToShopCommand ??= new Command(
-               action: () => this.messenger.Send(new NavigationMessage(typeof(ShopViewModel))),
-               predicate: () => true);
+               action: () =>
+               {
+                   this.messenger.Send(new UpdateBooksListMessage());
+                   this.messenger.Send(new NavigationMessage(typeof(ShopViewModel)));
+               },
+               predicate: () => true)
+        {
+
+        };
         set => base.PropertyChange(out navigateToShopCommand, value);
     }
 
@@ -48,7 +59,11 @@ public class MenuViewModel : ViewModelBase
     public Command NavigateToLibraryCommand
     {
         get => this.navigateToLibraryCommand ??= new Command(
-               action: () => this.messenger.Send(new NavigationMessage(typeof(LibraryViewModel))),
+               action: () =>
+               {
+                   this.messenger.Send(new UpdateBooksListMessage());
+                   this.messenger.Send(new NavigationMessage(typeof(LibraryViewModel)));
+               },
                predicate: () => true);
         set => base.PropertyChange(out navigateToLibraryCommand, value);
     }

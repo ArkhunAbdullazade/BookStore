@@ -8,12 +8,13 @@ namespace BookStore.Models
 {
     public class User
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string? Password { get; set; }
         public string? AvatarUrl { get; set; }
         public double Amount { get; set; } = 0;
-        public ICollection<UserBook> UserBooks { get; }
+        public List<Comment> Comments { get; set; }
+        public List<UserBook> UserBooks { get; set; }
 
         private User() { }
         public User(string name, string password)

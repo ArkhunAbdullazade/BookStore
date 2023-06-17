@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using BookStore.Models;
 using BookStore.Data;
 using BookStore.Repositories.Base;
+using BookStore;
 
 namespace CarShop.Repositories
 {
@@ -17,7 +18,7 @@ namespace CarShop.Repositories
         private BookStoreDBContext context;
         public BookSqlRepository()
         {
-            context = new BookStoreDBContext();
+            context = App.ServiceContainer.GetInstance<BookStoreDBContext>();
         }
 
         public IEnumerable<Book> GetAll() => context.Books;
@@ -32,7 +33,7 @@ namespace CarShop.Repositories
 
         public bool Delete(Book book)
         {
-            if (book is null || book.Id == 0) return false;
+            if (book is null) return false;
 
             context.Books.Remove(book);
             context.SaveChanges();
@@ -54,6 +55,14 @@ namespace CarShop.Repositories
             context.SaveChanges();
             return book;
 
+        }
+        public IEnumerable<Book> GetBooksByUserId(int id)
+        {
+            var query = from ub in context.UserBooks
+                        join b in context.Books on ub.BookId equals b.Id
+                        where ub.UserId == id
+                        select b;
+            return query.ToList();
         }
     }
 }

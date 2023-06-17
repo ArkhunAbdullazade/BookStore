@@ -18,7 +18,7 @@ namespace BookStore.Repositories
         private BookStoreDBContext context;
         public UserSqlRepository()
         {
-            context = new BookStoreDBContext();
+            context = App.ServiceContainer.GetInstance<BookStoreDBContext>();
         }
 
         public IEnumerable<User> GetAll() => context.Users;
@@ -33,7 +33,7 @@ namespace BookStore.Repositories
 
         public bool Delete(User user)
         {
-            if (user is null || user.Id == 0) return false;
+            if (user is null) return false;
 
             context.Users.Remove(user);
             context.SaveChanges();

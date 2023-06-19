@@ -11,7 +11,7 @@ namespace BookStore.Data
 {
     public class BookStoreDBContext : DbContext
     {
-        private const string connectionString = $"Data Source=Ingenius-PC42;Initial Catalog=BookStoreDB;Integrated Security=True;TrustServerCertificate=True;";
+        private const string connectionString = $"Server=localhost;Database=GettingStarted;User Id=admin;Password=admin;TrustServerCertificate=True;";
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }

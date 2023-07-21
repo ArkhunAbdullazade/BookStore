@@ -26,7 +26,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center"
                     Text="{Binding CurrentUser.Name}" 
-                    FontSize="25"
+                    FontSize="18"
                     FontWeight="Bold"
                     Padding="10"/>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">

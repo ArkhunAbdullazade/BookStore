@@ -7,7 +7,7 @@
         xmlns:Menu="clr-namespace:BookStore.Tools" 
         xmlns:vm="clr-namespace:BookStore.ViewModels" 
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Book Store"
         Height="600"
         Width="850"
         AllowsTransparency="True"

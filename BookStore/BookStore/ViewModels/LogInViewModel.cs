@@ -50,6 +50,16 @@ public class LogInViewModel : ViewModelBase
         set => base.PropertyChange(out this.loginCommand, value);
     }
 
+    private Command? exitCommand;
+
+    public Command ExitCommand
+    {
+        get => this.exitCommand ??= new Command(
+               action: () => Environment.Exit(42),
+               predicate: () => true);
+        set => base.PropertyChange(out this.exitCommand, value);
+    }
+
     public LogInViewModel(IUsersRepository<User> usersRepository, IMessenger messenger)
     {
         this.usersRepository = usersRepository;

@@ -77,6 +77,16 @@
                     Command="{Binding NavigationCommand}"
                     Style="{StaticResource RegistrationButtonStyle}">
                 </Button>
+
+                <Button Content="Exit"
+                    Margin="0,10"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ExitCommand}"
+                    Style="{StaticResource RegistrationButtonStyle}">
+                </Button>
             </StackPanel>
         </Border>
     </Border>

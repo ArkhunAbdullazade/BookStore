@@ -13,11 +13,11 @@
                         CornerRadius="0,20,0,0" />
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.65*"/>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="4.5*"/>
+                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="1.1*"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
@@ -28,7 +28,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center"
                     Text="{Binding CurrentUser.Name}" 
-                    FontSize="25"
+                    FontSize="18"
                     FontWeight="Bold"
                     Padding="10"/>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
